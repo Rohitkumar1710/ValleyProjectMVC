@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValleyProject", "ValleyProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValleyProject.Entities", "ValleyProject.Entities\ValleyProject.Entities.csproj", "{B68B057B-BEAA-462C-954D-276D5CA72669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "ValleyProject.Repositories\DataAccessLayer.csproj", "{810B250F-5651-42A1-A1A4-E832D613002F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValleyProject.Repositories", "ValleyProject.Repositories\ValleyProject.Repositories.csproj", "{810B250F-5651-42A1-A1A4-E832D613002F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValleyProject.UI", "ValleyProject.UI\ValleyProject.UI.csproj", "{44766E92-0031-4F51-A7C9-41B15D67CB5A}"
 EndProject
