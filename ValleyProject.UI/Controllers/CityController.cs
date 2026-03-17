@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ValleyProject.Entities.Model;
 using ValleyProject.Repositories.Implementation;
 using ValleyProject.Repositories.Interface;
@@ -8,21 +9,25 @@ namespace ValleyProject.UI.Controllers
     public class CityController : Controller
     {
         private readonly ICityRepositroy _cityRepo;
+        private readonly IStateRepo _stateRepo;
 
-        public CityController(ICityRepositroy cityRepo)
+        public CityController(ICityRepositroy cityRepo, IStateRepo stateRepo)
         {
             _cityRepo = cityRepo;
+            _stateRepo = stateRepo;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var cities = _cityRepo.GetAll().Result;
+            return View(cities);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            City city = new City();
-            return View(city);
+            var states = _stateRepo.GetAllStates();
+            ViewBag.StateList = new SelectList(states, "Id", "Name");
+            return View();
         }
         [HttpPost]
         public IActionResult Create(City city)
@@ -38,6 +43,8 @@ namespace ValleyProject.UI.Controllers
         public IActionResult Edit(int id)
         {
             var city = _cityRepo.GetById(id);
+            var states = _stateRepo.GetAllStates();
+            ViewBag.StateList = new SelectList(states, "Id", "Name");
             return View(city);
         }
         [HttpPost]

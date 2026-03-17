@@ -10,9 +10,9 @@ namespace ValleyProject.Repositories.Interface
     public interface ICityRepositroy
      {
          public Task<List<City>> GetAll();
-         public  Task<City> GetById(int id);
+         public  City GetById(int id);
          public void Update(City city);
          public void Save(City city);
-         public void Delete(City city);
+        public void Delete(int id);
      }
 }

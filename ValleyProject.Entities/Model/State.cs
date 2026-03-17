@@ -11,7 +11,7 @@ namespace ValleyProject.Entities.Model
         public int Id { get; set; }
         public string Name { get; set; } = "Default State";
         public int CountryId { get; set; }
-        public Country Country { get; set; }= new();
+        public Country? Country { get; set; }
         // navigation property
         public ICollection<City> States { get; set; } = new HashSet<City>();
     }

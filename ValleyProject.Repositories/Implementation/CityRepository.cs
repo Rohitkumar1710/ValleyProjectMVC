@@ -15,13 +15,13 @@ namespace ValleyProject.Repositories.Implementation
         private readonly DataContext _context;
         public CityRepository(DataContext dataContext)
         {
-            dataContext = _context;
+            _context = dataContext; // Fix assignment
         }
         public async Task<List<City>> GetAll()
         {
             try
             {
-                var result = await _context.cities.ToListAsync();
+                var result = await _context.cities.Include(x=>x.State).ThenInclude(y=> y.Country).ToListAsync();
                 return result;
             }
             catch (Exception)
@@ -29,7 +29,7 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public async Task<City> GetById(int id)
+        public  City GetById(int id)
         {
             try
             {
@@ -53,7 +53,6 @@ namespace ValleyProject.Repositories.Implementation
             {
                 throw;
             }
-
         }
         public void Save(City city)
         {
@@ -82,7 +81,6 @@ namespace ValleyProject.Repositories.Implementation
             {
                 throw;
             }
-
         }
     }
 }
