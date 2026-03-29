@@ -16,40 +16,40 @@ namespace ValleyProject.UI.Controllers
             _countryRepo = countryRepo;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var states = _stateRepo.GetAllStates();
+            var states =await _stateRepo.GetAllStates();
             return View(states);
         }
         [HttpGet("GetAllStates")]
-        public IActionResult GetAllStates()
+        public async Task<IActionResult> GetAllStates()
         {
-            var states = _stateRepo.GetAllStates();
+            var states =await _stateRepo.GetAllStates();
             return Ok(states);
 
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var contries= _countryRepo.GetAll();
+            var contries=await _countryRepo.GetAll();
             ViewBag.CountriesList = new SelectList(contries,"Id","Name");
             return View();
         }
         [HttpPost]
-        public IActionResult Create(State state)
+        public async Task<IActionResult> Create(State state)
         {
             if (ModelState.IsValid)
             {
-                _stateRepo.AddState(state);
+               await _stateRepo.AddState(state);
                 return RedirectToAction("Index");
             }
             return View(state);
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async  Task<IActionResult> Edit(int id)
         {
-            var state = _stateRepo.GetStateById(id);
-            var contries = _countryRepo.GetAll();
+            var state =await _stateRepo.GetStateById(id);
+            var contries = await _countryRepo.GetAll();
             ViewBag.CountriesList = new SelectList(contries, "Id", "Name");
             if (state == null)
             {
@@ -58,20 +58,20 @@ namespace ValleyProject.UI.Controllers
             return View(state);
         }
         [HttpPost]
-        public IActionResult Edit(State state)
+        public async Task<IActionResult> Edit(State state)
         {
             if (ModelState.IsValid)
             {
-                _stateRepo.UpdateState(state);
+                await _stateRepo.UpdateState(state);
                 return RedirectToAction("Index");
             }
             return View(state);
         }
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var state = _stateRepo.GetStateById(id);
-            _stateRepo.DeleteState(id);
+            var state =await _stateRepo.GetStateById(id);
+           await _stateRepo.DeleteState(id);
             return RedirectToAction("Index");
         }
     }

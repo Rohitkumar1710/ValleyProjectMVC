@@ -17,50 +17,50 @@ namespace ValleyProject.UI.Controllers
             _stateRepo = stateRepo;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var cities = _cityRepo.GetAll().Result;
+            var cities =await _cityRepo.GetAll();
             return View(cities);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var states = _stateRepo.GetAllStates();
+            var states =await _stateRepo.GetAllStates();
             ViewBag.StateList = new SelectList(states, "Id", "Name");
             return View();
         }
         [HttpPost]
-        public IActionResult Create(City city)
+        public async Task<IActionResult> Create(City city)
         {
             if (ModelState.IsValid)
             {
-                _cityRepo.Save(city);
+               await _cityRepo.Save(city);
                 return RedirectToAction("Index");
             }
             return View(city);
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var city = _cityRepo.GetById(id);
-            var states = _stateRepo.GetAllStates();
+            var city =await _cityRepo.GetById(id);
+            var states =await _stateRepo.GetAllStates();
             ViewBag.StateList = new SelectList(states, "Id", "Name");
             return View(city);
         }
         [HttpPost]
-        public IActionResult Edit(City city)
+        public async Task<IActionResult> Edit(City city)
         {
             if (ModelState.IsValid)
             {
-                _cityRepo.Update(city);
+               await _cityRepo.Update(city);
                 return RedirectToAction("Index");
             }
             return View(city);
         }
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var city = _cityRepo.GetById(id);
+            var city =await _cityRepo.GetById(id);
             return View(city);
         }
     }

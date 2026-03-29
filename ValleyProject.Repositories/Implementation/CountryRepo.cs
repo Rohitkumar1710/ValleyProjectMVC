@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.ApplicationDbContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +18,23 @@ namespace ValleyProject.Repositories.Implementation
         {
             _context = context;
         }
-        public List<Country> GetAll()
+        public async Task<IEnumerable<Country>> GetAll()
         {
             try
             {
-                return _context.Countries.ToList();
+               var countries=await _context.Countries.ToListAsync();
+                return countries;
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public Country GetById(int id)
+        public async Task<Country> GetById(int id)
         {
             try
             {
-                var result = _context.Countries.FirstOrDefault(x => x.Id == id);
+                var result =await _context.Countries.FindAsync(id);
                 return result;
             }
             catch (Exception ex)
@@ -40,36 +42,36 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public void Update(Country country)
+        public async Task Update(Country country)
         {
             try
             {
                 _context.Countries.Update(country);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public void Save(Country country)
+        public async Task Save(Country country)
         {
             try
             {
-                _context.Countries.Add(country);
-                _context.SaveChanges();
+               await _context.Countries.AddAsync(country);
+              await  _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public void Delete(Country country)
+        public async Task Delete(Country country)
         {
             try
             {
                 _context.Countries.Remove(country);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

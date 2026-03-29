@@ -12,6 +12,7 @@ namespace DataAccessLayer.ApplicationDbContext
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> states { get; set; }
         public DbSet<City> cities { get; set; }
+        public DbSet<UserInfo> UserInfos { get; set; }
 
     }
 }

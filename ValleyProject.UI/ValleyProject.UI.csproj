@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="ViewModel\CityViewModel\" />
+    <Folder Include="ViewModel\StateViewModel\" />
   </ItemGroup>
 
 </Project>

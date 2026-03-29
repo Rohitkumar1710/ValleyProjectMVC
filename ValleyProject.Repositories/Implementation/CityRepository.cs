@@ -29,11 +29,11 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public  City GetById(int id)
+        public  async Task<City> GetById(int id)
         {
             try
             {
-                var result = _context.cities.FirstOrDefault(x => x.Id == id);
+                var result =await _context.cities.FindAsync(id);
                 return result;
             }
             catch (Exception ex)
@@ -42,39 +42,39 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public void Update(City city)
+        public async Task Update(City city)
         {
             try
             {
                 _context.cities.Update(city);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public void Save(City city)
+        public async Task Save(City city)
         {
             try
             {
                 _context.cities.Add(city);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
-                var result = _context.cities.FirstOrDefault(x => x.Id == id);
+                var result =await _context.cities.FindAsync(id);
                 if (result != null)
                 {
                     _context.cities.Remove(result);
-                    _context.SaveChanges();
+                   await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)

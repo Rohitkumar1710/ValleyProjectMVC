@@ -18,12 +18,12 @@ namespace ValleyProject.Repositories.Implementation
         {
             _context = context;
         }
-        public void AddState(State state)
+        public async Task AddState(State state)
         {
             try
             {
                 _context.states.Add(state);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -31,11 +31,11 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public List<State> GetAllStates()
+        public async Task<List<State>> GetAllStates()
         {
             try
             {
-                return _context.states.Include(x=>x.Country).ToList();
+                return await _context.states.Include(x=>x.Country).ToListAsync();
             }
             catch (Exception)
             {
@@ -43,11 +43,11 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public State GetStateById(int id)
+        public async Task<State> GetStateById(int id)
         {
             try
             {
-                return _context.states.FirstOrDefault(s => s.Id == id);
+                return await _context.states.FindAsync(id);
             }
             catch (Exception)
             {
@@ -55,23 +55,24 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public State GetStateByName(string name)
+        public async Task<State> GetStateByName(string name)
         {
             try
             {
-                return _context.states.FirstOrDefault(s => s.Name == name);
+                return await _context.states.FindAsync(name);
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public void UpdateState(State state)
+        public async Task UpdateState(State state)
         {
             try
             {
                 _context.states.Update(state);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+
             }
             catch (Exception)
             {
@@ -79,15 +80,15 @@ namespace ValleyProject.Repositories.Implementation
                 throw;
             }
         }
-        public void DeleteState(int id)
+        public async Task DeleteState(int id)
         {
             try
             {
-                var state = _context.states.FirstOrDefault(s => s.Id == id);
+                var state =await _context.states.FindAsync(id);
                 if (state != null)
                 {
                     _context.states.Remove(state);
-                    _context.SaveChanges();
+                  await  _context.SaveChangesAsync();
                 }
             }
             catch (Exception)

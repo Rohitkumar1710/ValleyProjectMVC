@@ -9,12 +9,12 @@ namespace ValleyProject.Repositories.Interface
 {
     public interface IStateRepo
     {
-       public void AddState(State state);
-       public  List<State> GetAllStates();
-       public State GetStateById(int id);
-       public State GetStateByName(string name);
-       public void UpdateState(State state);
-       public void DeleteState(int id);
+       public Task AddState(State state);
+       public  Task<List<State>> GetAllStates();
+       public Task<State> GetStateById(int id);
+       public Task<State> GetStateByName(string name);
+       public Task UpdateState(State state);
+       public Task DeleteState(int id);
 
     }
 }

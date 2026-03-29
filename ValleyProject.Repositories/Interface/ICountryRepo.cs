@@ -9,10 +9,10 @@ namespace ValleyProject.Repositories.Interface
 {
     public interface ICountryRepo
     {
-        List<Country> GetAll();
-        Country GetById(int id);
-        void Update(Country country);
-        void Save(Country country);
-        void Delete(Country country);
+       Task< IEnumerable<Country>> GetAll();
+        Task<Country> GetById(int id);
+        Task Update(Country country);
+        Task Save(Country country);
+        Task Delete(Country country);
     }
 }

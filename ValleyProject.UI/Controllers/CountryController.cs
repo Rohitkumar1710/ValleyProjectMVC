@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ValleyProject.Entities.Model;
 using ValleyProject.Repositories.Interface;
+using ValleyProject.UI.ViewModel;
+using ValleyProject.UI.ViewModel.CountryViewModel;
 
 namespace ValleyProject.UI.Controllers
 {
@@ -13,48 +15,76 @@ namespace ValleyProject.UI.Controllers
             _countryRepo = countryRepo;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var contries= _countryRepo.GetAll();
-            return View(contries);
+            if(HttpContext.Session.GetInt32("Id") != null)
+            {
+                List<CountryViewModel> countriesList = new List<CountryViewModel>();
+                var contries = await _countryRepo.GetAll();
+                foreach (var country in contries)
+                {
+                    CountryViewModel countryViewModel = new CountryViewModel()
+                    {
+                        Id = country.Id,
+                        Name = country.Name
+                    };
+                    countriesList.Add(countryViewModel);
+                }
+                return View(countriesList);
+            }
+           return RedirectToAction("Login","Auth");
         }
         [HttpGet]
         public IActionResult Create()
         {
-            Country country = new Country();
+            CreateCountryViewModel country = new CreateCountryViewModel();
             return View(country);
         }
         [HttpPost]
-        public IActionResult Create(Country country)
+        public async  Task<IActionResult> Create(CreateCountryViewModel vm)
         {
+            var country = new Country()
+            {
+                Name = vm.Name
+            };
             if (ModelState.IsValid)
             {
-                _countryRepo.Save(country);
+               await _countryRepo.Save(country);
+                return RedirectToAction("Index");
+            }
+            return View(vm);
+        }
+        [HttpGet]
+        public async  Task<IActionResult> Edit(int id)
+        {
+            var country =await _countryRepo.GetById(id);
+            CountryViewModel countryViewModel = new CountryViewModel()
+            {
+                Id = country.Id,
+                Name = country.Name
+            };
+            return View(countryViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(CountryViewModel country)
+        {
+            var countryl = new Country()
+            {
+                Id = country.Id,
+                Name = country.Name
+            };
+            if (ModelState.IsValid)
+            {
+                await _countryRepo.Update(countryl);
                 return RedirectToAction("Index");
             }
             return View(country);
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var country = _countryRepo.GetById(id);
-            return View(country);
-        }
-        [HttpPost]
-        public IActionResult Edit(Country country)
-        {
-            if (ModelState.IsValid)
-            {
-                _countryRepo.Update(country);
-                return RedirectToAction("Index");
-            }
-            return View(country);
-        }
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var country = _countryRepo.GetById(id);
-            _countryRepo.Delete(country);
+            var country =await _countryRepo.GetById(id);
+           await _countryRepo.Delete(country);
             return RedirectToAction("Index");
         }
     }
